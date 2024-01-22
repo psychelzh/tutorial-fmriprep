@@ -9,6 +9,9 @@ website:
         text: Home
       - about.qmd
 
+execute:
+  freeze: true
+
 format:
   html:
     theme: cosmo
@@ -16,4 +19,3 @@ format:
     toc: true
 
 editor: visual
-
