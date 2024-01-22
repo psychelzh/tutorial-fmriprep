@@ -41,14 +41,14 @@ HeuDiConv: <https://heudiconv.readthedocs.io/en/latest/>
 
 ## Recommended practices {.smaller}
 
-::: {.incremental}
-- Use docker container (convert to singularity if on server)
-- Three-step process:
-  - Do a dry-run of HeuDiConv on a sample subject to generate heuristic file and data sequence info files
-  - Modify heuristic file based on the DICOM characteristics listed in `.heudiconv/dicominfo.tsv` file
-  - Run HeuDiConv using the revised heuristic file
-- The `heuristic` file requires some `python` programming skills
-- Plan the protocol names when you collect the data
+::: incremental
+-   Use docker container (convert to singularity if on server)
+-   Three-step process:
+    -   Do a dry-run of HeuDiConv on a sample subject to generate heuristic file and data sequence info files
+    -   Modify heuristic file based on the DICOM characteristics listed in `.heudiconv/dicominfo.tsv` file
+    -   Run HeuDiConv using the revised heuristic file
+-   The `heuristic` file requires some `python` programming skills
+-   Plan the protocol names when you collect the data
 :::
 
 # fMRIPrep
@@ -61,7 +61,7 @@ HeuDiConv: <https://heudiconv.readthedocs.io/en/latest/>
 
 A BIDS derivatives dataset of the form:
 
-```
+```         
 <output_dir>/
   logs/
   sub-<label>/
@@ -69,16 +69,16 @@ A BIDS derivatives dataset of the form:
   dataset_description.json
 ```
 
-* Derivatives data is in `sub-<label>/` folder, including anatomical, freesurfer [^1] and functional derivatives
-* Visual report is genrated as `sub-<label>.html`, [here is a sample report](https://fmriprep.org/en/latest/_static/SampleReport/sample_report.html)
-* `dataset_description.json` is a a metadata file in which fMRIPrep records metadata recommended by the BIDS standard
-* The confounds of each BOLD results are also stored in derivatives data, but note fMRIPrep only generates them, not uses them to denoise data
+-   Derivatives data is in `sub-<label>/` folder, including anatomical, freesurfer [^1] and functional derivatives
+-   Visual report is genrated as `sub-<label>.html`, [here is a sample report](https://fmriprep.org/en/latest/_static/SampleReport/sample_report.html)
+-   `dataset_description.json` is a a metadata file in which fMRIPrep records metadata recommended by the BIDS standard
+-   The confounds of each BOLD results are also stored in derivatives data, but note fMRIPrep only generates them, not uses them to denoise data
 
 [^1]: Get a freesurfer license file at <https://surfer.nmr.mgh.harvard.edu/registration.html>
 
 ## Recommended practices {.smaller}
 
-* Use the newest stable version because it is constantly updated
-* Download `TemplateFlow` data beforehand to avoid network issues
-* Run each subject separately and run all in parallel
-* Possible issue: now `--use-aroma` is removed, ICA is not done (maybe not so necessary)
+-   Use the newest stable version because it is constantly updated
+-   Download `TemplateFlow` data beforehand to avoid network issues
+-   Run each subject separately and run all in parallel
+-   Possible issue: now `--use-aroma` is removed, ICA is not done (maybe not so necessary)
