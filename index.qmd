@@ -1,0 +1,84 @@
+---
+title: "A Simple Intro for fMRIPrep"
+author: Liang, Zhang
+date: 2024-01-21
+date-modified: last-modified
+format:
+  revealjs: 
+    code-fold: true
+    theme: dark
+---
+
+# BIDS
+
+## Introduction of BIDS {.smaller}
+
+Brain Imaging Data Structure (BIDS) is a simple and intuitive way to organize and describe your neuroimaging and behavioral data (official site: <https://bids.neuroimaging.io/>). Why BIDS? (Source: <https://rpubs.com/sarenseeley/bids-fmriprep-mriqc>)
+
+-   Heterogeneity in how complex data are organized can lead to confusion (including within-lab as well as between-lab), and unnecessary manual metadata input.
+
+-   Researchers can take advantage of the numerous and ever-expanding library of "BIDS apps", or software packages that are written to take valid BIDS datasets as input.
+
+-   Avoids the need for highly study- or lab-specific pipelines, improves reproducibility for the field as a whole, we can be more confident in our results.
+
+-   The ability to automatically validate a dataset allows you to spot issues (files missing or in the wrong place, inconsistent naming, etc.) and makes curation easier and faster.
+
+-   Having a standardized format facilitates data reuse/sharing (benefits for cost-effectiveness of research \$).
+
+## BIDS Basics
+
+![Recommend <https://bids-standard.github.io/bids-starter-kit/>](images/clipboard-278204886.png)
+
+## Convert from DICOM to BIDS {.smaller}
+
+HeuDiConv: <https://heudiconv.readthedocs.io/en/latest/>
+
+> a heuristic-centric DICOM converter
+
+-   Essentially, it requires us prepare a so-called `heuristic` file, which is a python script that tells the tool how to convert the DICOM files to BIDS format.
+-   Typically, we could let the tool generate a template `heuristic` file for us, and then we can modify it to fit our needs.
+-   It should be very easy, but the details can be tricky. Read [these tutorials](https://heudiconv.readthedocs.io/en/latest/tutorials.html).
+
+## Recommended practices {.smaller}
+
+::: {.incremental}
+- Use docker container (convert to singularity if on server)
+- Three-step process:
+  - Do a dry-run of HeuDiConv on a sample subject to generate heuristic file and data sequence info files
+  - Modify heuristic file based on the DICOM characteristics listed in `.heudiconv/dicominfo.tsv` file
+  - Run HeuDiConv using the revised heuristic file
+- The `heuristic` file requires some `python` programming skills
+- Plan the protocol names when you collect the data
+:::
+
+# fMRIPrep
+
+## What is fMRIPrep?
+
+![Overview of the whole picture](images/clipboard-2988983619.png)
+
+## Outputs of fMRIPrep
+
+A BIDS derivatives dataset of the form:
+
+```
+<output_dir>/
+  logs/
+  sub-<label>/
+  sub-<label>.html
+  dataset_description.json
+```
+
+* Derivatives data is in `sub-<label>/` folder, including anatomical, freesurfer [^1] and functional derivatives
+* Visual report is genrated as `sub-<label>.html`, [here is a sample report](https://fmriprep.org/en/latest/_static/SampleReport/sample_report.html)
+* `dataset_description.json` is a a metadata file in which fMRIPrep records metadata recommended by the BIDS standard
+* The confounds of each BOLD results are also stored in derivatives data, but note fMRIPrep only generates them, not uses them to denoise data
+
+[^1]: Get a freesurfer license file at <https://surfer.nmr.mgh.harvard.edu/registration.html>
+
+## Recommended practices {.smaller}
+
+* Use the newest stable version because it is constantly updated
+* Download `TemplateFlow` data beforehand to avoid network issues
+* Run each subject separately and run all in parallel
+* Possible issue: now `--use-aroma` is removed, ICA is not done (maybe not so necessary)
